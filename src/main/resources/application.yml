@@ -15,4 +15,7 @@ spring:
     show_sql : true
 
 
+jwt:
+  secretKey: Y2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbGNoYXRzZXJ2ZXJwYXNzd29yZHNwZWNpYWwKY2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbAoK
+  expiration: 300
 
