@@ -30,7 +30,7 @@ public class SecurityConfigs {
                 .cors(cors-> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)//csrf 방지 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)//HTTP Basic 비활성화
-                .authorizeHttpRequests(a->a.requestMatchers("/member/create","/member/login")
+                .authorizeHttpRequests(a->a.requestMatchers("/member/create","/member/login","/connect")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
