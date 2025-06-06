@@ -60,7 +60,7 @@
 
 ## 🤔 개발 과정에서 만났던 의문점들
 
-프로젝트를 진행하며 부딪혔던 문제들과 그에 대한 고민들을 기록합니다. (여기에 자네가 질문했던 내용들을 구체적인 상황과 함께 적으면 좋아!)
+프로젝트를 진행하며 부딪혔던 문제들과 그에 대한 고민들을 기록합니다. 
 
 *   **[STOMP 보안 - 인증]:** 인증된 사용자만 웹소켓 연결을 맺고 메시지를 주고받게 하려면 Spring Security 설정을 어떻게 해야 할까? STOMP 메시지에 대한 보안 규칙은 어디서 정의해야 할까? (`@EnableWebSocketSecurity`, `MessageSecurityMetadataSourceRegistry`, `ChannelInterceptor`)
 *   **[Spring Security - ChannelInterceptor]:** `configureClientInboundChannel` 메소드에서 `registration.interceptors()`를 통해 등록하는 `ChannelInterceptor`는 정확히 어떤 역할을 하며, 인증/권한 부여 로직과 어떤 관계가 있을까?
@@ -68,7 +68,7 @@
 
 ## ✅ 해결점 및 학습 내용
 
-위에서 제기된 의문점들을 해결하기 위해 시도했던 방법들과 최종 해결책, 그리고 이를 통해 배운 내용들을 정리합니다. (여기에 각 의문점에 대한 해결 과정을 구체적인 코드 예시나 설명과 함께 적으면 좋아!)
+위에서 제기된 의문점들을 해결하기 위해 시도했던 방법들과 최종 해결책, 그리고 이를 통해 배운 내용들을 정리합니다.
 *   **[STOMP 보안 - 인증]:** 인증된 사용자만 웹소켓 연결을 맺고 메시지를 주고받게 하려면 Spring Security 설정을 어떻게 해야 할까? STOMP 메시지에 대한 보안 규칙은 어디서 정의해야 할까? (`@EnableWebSocketSecurity`, `MessageSecurityMetadataSourceRegistry`, `ChannelInterceptor`)
 *   **[Spring Security - ChannelInterceptor]:** `configureClientInboundChannel` 메소드에서 `registration.interceptors()`를 통해 등록하는 `ChannelInterceptor`는 정확히 어떤 역할을 하며, 인증/권한 부여 로직과 어떤 관계가 있을까?
 
