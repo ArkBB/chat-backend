@@ -11,19 +11,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @Column(unique = true,nullable = false)
     private String email;
 
     private String password;

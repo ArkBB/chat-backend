@@ -4,11 +4,9 @@ package com.example.chatserver.member.service;
 import com.example.chatserver.member.domain.Member;
 import com.example.chatserver.member.dto.MemberSaveReqDto;
 import com.example.chatserver.member.repository.MemberRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional
+
+
 public class MemberService {
 
     private final MemberRepository memberRepository;
