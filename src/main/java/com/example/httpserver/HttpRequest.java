@@ -1,5 +1,7 @@
 package com.example.httpserver;
 
+import static com.example.chatserver.MyLogger.log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -18,8 +20,29 @@ public class HttpRequest {
     public HttpRequest(BufferedReader reader) throws IOException {
         parseRequestLine(reader);
         parseHeaders(reader);
+        parseBody(reader);
     }
 
+    private void parseBody(BufferedReader reader) throws IOException {
+        if(!headers.containsKey("Content-Length")){
+            return;
+        }
+
+        int contentLength = Integer.parseInt(headers.get("Content-Length"));
+        char[] bodyChars = new char[contentLength];
+        int read = reader.read(bodyChars);
+        if (read != contentLength) {
+            throw new IOException("Fail to read entire body. Expected " + contentLength + " bytes, but read " + read);
+        }
+
+        String body = new String(bodyChars);
+        log("Http Message Body: " + body);
+
+        String contentType = headers.get("Content-Type");
+        if(contentType.equals("application/x-www-form-urlencoded")){
+            parseQueryParameters(body);
+        }
+    }
 
     // GET /search?q=hello HTTP/1.1
     // Host: localhost:12345
@@ -66,7 +89,7 @@ public class HttpRequest {
     private void parseHeaders(BufferedReader reader) throws IOException {
         String line;
         while(!(line = reader.readLine()).isEmpty()){
-            String[] parts = line.split("");
+            String[] parts = line.split(":");
             //trim() 앞 뒤에 공백 제거
             headers.put(parts[0].trim(), parts[1].trim());
         }
