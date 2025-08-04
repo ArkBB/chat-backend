@@ -22,7 +22,6 @@
     *   SockJS (WebSocket 폴백 라이브러리)
     *   webstomp-client (STOMP 클라이언트 라이브러리)
     
-
 ## 🚦 프로젝트 설정 및 실행
 
 프로젝트를 로컬 환경에서 실행하기 위한 가이드입니다.
@@ -60,29 +59,11 @@
 
 ## 🤔 개발 과정에서 만났던 의문점들
 
-프로젝트를 진행하며 부딪혔던 문제들과 그에 대한 고민들을 기록합니다. 
-
-*   **[STOMP 보안 - 인증]:** 인증된 사용자만 웹소켓 연결을 맺고 메시지를 주고받게 하려면 Spring Security 설정을 어떻게 해야 할까? STOMP 메시지에 대한 보안 규칙은 어디서 정의해야 할까? (`@EnableWebSocketSecurity`, `MessageSecurityMetadataSourceRegistry`, `ChannelInterceptor`)
-*   **[Spring Security - ChannelInterceptor]:** `configureClientInboundChannel` 메소드에서 `registration.interceptors()`를 통해 등록하는 `ChannelInterceptor`는 정확히 어떤 역할을 하며, 인증/권한 부여 로직과 어떤 관계가 있을까?
 
 
 ## ✅ 해결점 및 학습 내용
 
-위에서 제기된 의문점들을 해결하기 위해 시도했던 방법들과 최종 해결책, 그리고 이를 통해 배운 내용들을 정리합니다.
-*   **[STOMP 보안 - 인증]:** 인증된 사용자만 웹소켓 연결을 맺고 메시지를 주고받게 하려면 Spring Security 설정을 어떻게 해야 할까? STOMP 메시지에 대한 보안 규칙은 어디서 정의해야 할까? (`@EnableWebSocketSecurity`, `MessageSecurityMetadataSourceRegistry`, `ChannelInterceptor`)
-*   **[Spring Security - ChannelInterceptor]:** `configureClientInboundChannel` 메소드에서 `registration.interceptors()`를 통해 등록하는 `ChannelInterceptor`는 정확히 어떤 역할을 하며, 인증/권한 부여 로직과 어떤 관계가 있을까?
 
-## ⏭️ 향후 개선 계획
-
-프로젝트를 더 발전시키기 위한 아이디어들입니다.
-
-*   다중 채팅방 기능 구현
-*   사용자 목록 실시간 표시
-*   이전 채팅 기록 불러오기 (페이징 처리 등)
-*   메시지 타입 확장 (이미지, 파일 등)
-*   관리자 기능 (메시지 삭제, 사용자 차단)
-*   사용자 인증 및 권한 부여 강화 (Spring Security 연동)
-*   테스트 코드 작성
 
 ## 📄 라이선스
 
