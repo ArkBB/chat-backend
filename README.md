@@ -57,17 +57,7 @@
 
 4.  **접속:** 브라우저에서 `http://localhost:8080` (또는 설정된 포트)으로 접속하여 채팅 기능을 확인합니다.
 
-## 🤔 개발 과정에서 만났던 의문점들
-
-
-
-## ✅ 해결점 및 학습 내용
-
-
-
-## 📄 라이선스
-
-
-## 📞 문의
+## 🤔 개발 기록 정리
+https://pbh-studys-organization.gitbook.io/ark/chat-service/stomp
 
 
