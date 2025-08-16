@@ -1,5 +1,7 @@
 package com.example.chatserver.common.configs;
 
+import com.example.chatserver.common.jwt.JWTUtil;
+import com.example.chatserver.common.jwt.JwtAuthenticationFilter;
 import com.example.chatserver.common.jwt.LoginFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -25,12 +27,18 @@ public class SecurityConfigs {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final ObjectMapper objectMapper;
+    private final JWTUtil jwtUtil;
 
-    public SecurityConfigs(AuthenticationConfiguration authenticationConfiguration, ObjectMapper objectMapper) {
+    public SecurityConfigs(AuthenticationConfiguration authenticationConfiguration, ObjectMapper objectMapper,
+                           JWTUtil jwtUtil) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.objectMapper = objectMapper;
+        this.jwtUtil = jwtUtil;
     }
 
+
+    //AuthenticationManager를 관리하는 AuthenticationConfiguration를 통해서 직접 등록
+    //AuthenticationManger 인터페이스는 기본적으로 Bean 등록 X
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -41,7 +49,7 @@ public class SecurityConfigs {
 
         AuthenticationManager authenticationManager = authenticationManager(authenticationConfiguration);
 
-        LoginFilter loginFilter = new LoginFilter(objectMapper);
+        LoginFilter loginFilter = new LoginFilter(objectMapper,jwtUtil);
         loginFilter.setAuthenticationManager(authenticationManager);
 
         return httpSecurity
@@ -53,6 +61,8 @@ public class SecurityConfigs {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
+
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil),LoginFilter.class)
 
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
 

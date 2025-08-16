@@ -14,8 +14,7 @@ spring:
       ddl-auto: update
     show_sql : true
 
-
-jwt:
-  secretKey: Y2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbGNoYXRzZXJ2ZXJwYXNzd29yZHNwZWNpYWwKY2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbAoK
-  expiration: 300
+  jwt:
+    secret: Y2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbGNoYXRzZXJ2ZXJwYXNzd29yZHNwZWNpYWwKY2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbAoK
+    expiration: 3600000
 

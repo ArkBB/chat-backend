@@ -1,5 +1,6 @@
 package com.example.chatserver.common.jwt;
 
+import com.example.chatserver.member.dto.CustomUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,10 +17,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
+    private final JWTUtil jwtUtil;
 
-    public LoginFilter(ObjectMapper objectMapper) {
+
+    public LoginFilter(ObjectMapper objectMapper, JWTUtil jwtUtil) {
         super();
         this.objectMapper = objectMapper;
+        this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/member/login");
     }
 
@@ -46,8 +50,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         UsernamePasswordAuthenticationToken authRequest =
                 new UsernamePasswordAuthenticationToken(username,
-                        password,null);
-        // 이 시점에는 아직 authorities가 뭔지 모름
+                        password);
 
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
@@ -58,13 +61,22 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
-        System.out.println("성공");
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        String username = customUserDetails.getUsername();
+        String role = customUserDetails.getAuthorities().iterator().next().getAuthority();
+
+        String token = jwtUtil.createJWT(username,role,true);
+
+        response.addHeader("Authorization", "Bearer " + token);
     }
 
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        System.out.println("실패");
+
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
 
     }
 
