@@ -27,9 +27,12 @@ public class MemberService {
     }
 
     public Member create(MemberSaveReqDto memberSaveReqDto) {
-        if (memberRepository.findByEmail(memberSaveReqDto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
-        }
+       memberRepository.findByEmail(memberSaveReqDto.getEmail())
+               .ifPresent( member -> {
+                   throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+               });
+
+
         Member newMember = Member.builder()
                 .name(memberSaveReqDto.getName())
                 .email(memberSaveReqDto.getEmail())

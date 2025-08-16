@@ -1,7 +1,7 @@
 package com.example.chatserver.member.controller;
 
 
-import com.example.chatserver.common.auth.JwtTokenProvider;
+//import com.example.chatserver.common.auth.JwtTokenProvider;
 import com.example.chatserver.member.domain.Member;
 import com.example.chatserver.member.dto.MemberListResDto;
 import com.example.chatserver.member.dto.MemberLoginReqDto;
@@ -23,11 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
-    private final JwtTokenProvider jwtTokenProvider;
 
-    public MemberController(MemberService memberService, JwtTokenProvider jwtTokenProvider) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/create")
@@ -36,19 +34,6 @@ public class MemberController {
          return new ResponseEntity<>(member.getId(), HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> memberLogin(@RequestBody MemberLoginReqDto memberLoginReqDto){
-
-        Member member = memberService.login(memberLoginReqDto);
-
-        String jwtToken = jwtTokenProvider.createToken(member.getEmail(), member.getRole().name());
-
-        Map<String,Object> loginInfo = new HashMap<>();
-        loginInfo.put("jwtToken",jwtToken);
-        loginInfo.put("id",member.getId());
-
-        return new ResponseEntity<>(loginInfo,HttpStatus.OK);
-    }
 
     @GetMapping("/list")
     public ResponseEntity<?> memberList(){

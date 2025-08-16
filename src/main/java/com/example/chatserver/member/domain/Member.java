@@ -30,8 +30,9 @@ public class Member {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Enumerated(EnumType.STRING) // DB에 숫자로 들어가지 않고 USER,ADMIN 이렇게 들어가게 함
+    @Builder.Default // 기본적으로 Role.User로 들어가게gka
+    private Role role = Role.USER;
 
 
 
