@@ -1,5 +1,6 @@
 package com.example.chatserver.chat.config;
 
+import com.example.chatserver.chat.service.ChatService;
 import com.example.chatserver.common.auth.JwtTokenProvider;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,13 @@ public class StompHandler implements ChannelInterceptor {
     private final WebSocketSessionManager webSocketSessionManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public StompHandler(WebSocketSessionManager webSocketSessionManager, JwtTokenProvider jwtTokenProvider) {
+    private final ChatService chatService;
+
+    public StompHandler(WebSocketSessionManager webSocketSessionManager, JwtTokenProvider jwtTokenProvider,
+                        ChatService chatService) {
         this.webSocketSessionManager = webSocketSessionManager;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.chatService = chatService;
     }
 
     //connect 하기 전, describe 하기 전, send 하기 전, disconnect 하기 전 무조건 타는 메소드
@@ -58,7 +63,22 @@ public class StompHandler implements ChannelInterceptor {
 
         }
         // 만약 send인 경우에도 매 프레임마다 auth 검증 하고 싶으면 추가, 실무에선 어떻게 하는지 모르겠음.
+        if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
+            // 1. 헤더에서 JWT 추출
+            String token = resolveToken(accessor.getFirstNativeHeader("Authorization"));
 
+            // 2. 토큰 유효성 검사
+            if (token == null && jwtTokenProvider.validateToken(token)) {
+                throw new AuthenticationServiceException("인증에 실패하였습니다.");
+            }
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            String roomId = accessor.getDestination().split("/")[2];
+            String email = authentication.getName();
+
+            if(!chatService.isRoomParticipant(email,Long.parseLong(roomId))) {
+                throw new AuthenticationServiceException("해당 room의 참여자가 아닙니다.");
+            }
+        }
         return message;
     }
 
