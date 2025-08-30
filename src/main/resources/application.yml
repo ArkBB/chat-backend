@@ -14,6 +14,18 @@ spring:
       ddl-auto: validate
     show_sql : true
 
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+
+logging:
+  level:
+    # Spring Data Redis가 보내는 커맨드를 보기 위한 설정
+    org.springframework.data.redis: DEBUG
+    # Lettuce 드라이버의 통신 내용을 보기 위한 설정
+    io.lettuce.core: DEBUG
 
 jwt:
   secretKey: Y2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbGNoYXRzZXJ2ZXJwYXNzd29yZHNwZWNpYWwKY2hhdHNlcnZlcnBhc3N3b3Jkc3BlY2lhbAoK
